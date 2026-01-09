@@ -1,0 +1,160 @@
+.dashboard-container {
+  max-width: min(90%, 1600px);
+}
+
+.dashboard-container h1 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  color: #212529;
+}
+
+/* ===========================
+   TABLE STYLING
+   =========================== */
+
+/* Table font scaling & cell overflow */
+.register-table th,
+.register-table td {
+  font-size: clamp(0.7rem, 1vw, 0.85rem); /* responsive font */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+/* Action buttons inside table cells */
+td .btn {
+  flex: 0 0 auto; /* grow/shrink */
+  font-size: clamp(0.6rem, 1vw, 0.85rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Actions column width for large screens */
+.col-actions {
+  width: 14% !important; /* shrink to just fit buttons */
+  white-space: nowrap; /* keep buttons inline */
+}
+
+
+/* Table responsive scroll on small screens */
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* ===========================
+   SORT & HEADER STYLING
+   =========================== */
+
+@media (max-width: 992px) {
+  .action-btn-text {
+    display: none;
+  }
+
+  .col-actions {
+    width: 10% !important;
+  }
+
+  .sort-wrapper,
+  .sort-options {
+    font-size: 0.6rem !important;
+  }
+}
+
+/* Adjust table padding & font size on tablets */
+@media (max-width: 768px) {
+  .register-table th,
+  .register-table td {
+    font-size: 0.5rem !important;
+  }
+
+  td .btn {
+    padding: 0.1rem;
+  }
+
+  .dashboard-actions .btn {
+    font-size: clamp(0.6rem, 1vw, 0.7rem);
+    padding: clamp(0.35rem, 0.8vw, 0.6rem)
+             clamp(0.6rem, 1.2vw, 1rem);
+    white-space: nowrap;
+  }
+}
+
+/* Stack table buttons vertically only on extra-small screens */
+@media (max-width: 576px) {
+  td .btn {
+    flex-basis: 100%;
+    margin-bottom: 2px;
+    padding: 0.2rem 0.3rem;
+    font-size: 0.5rem;
+  }
+
+  .register-table th, 
+  .register-table td {
+    white-space: normal;
+    word-wrap: break-word;
+  }
+
+  .col-code {
+    width: 10% !important;
+  }
+
+  .col-fullNames {
+    width: 15% !important;
+  }
+
+  .register-table th,
+  .register-table td {
+    font-size: 0.4rem !important;
+  }
+}
+
+/* ===========================
+   DASHBOARD SEARCH + ACTIONS
+   =========================== */
+
+/* Minimum width for search input */
+.min-w-search {
+  min-width: 180px;
+}
+
+/* Default: dashboard actions right-aligned */
+.dashboard-actions {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Tablets: shrink buttons */
+@media (max-width: 768px) {
+  .dashboard-actions .btn {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.6rem;
+  }
+}
+
+
+/* Extra-small screens: stack only if absolutely necessary, keep inline and right-aligned */
+@media (max-width: 576px) {
+  .dashboard-actions {
+    flex-direction: row;       /* inline, not stacked */
+    flex-wrap: wrap;           /* wrap to next line if needed */
+    align-items: center;       /* vertical center */
+    justify-content: flex-end; /* right-aligned */
+    gap: 0.3rem;               /* small spacing between buttons */
+    width: auto;               /* don't take full width */
+  }
+
+  .dashboard-actions .btn {
+    flex: 0 1 auto;           /* shrink as needed, don't force full width */
+    font-size: 0.6rem;        /* smaller font */
+    padding: 0.25rem 0.5rem;  /* smaller padding */
+    white-space: nowrap;       /* prevent internal wrapping */
+  }
+
+  .min-w-search {
+    width: 100%; /* search input still full width */
+    margin-bottom: 0.5rem; /* spacing below search */
+  }
+}
+

@@ -1,0 +1,13 @@
+/* Navbar.css */
+.navbar-brand {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.navbar input.form-control-sm {
+  width: 200px;
+}
+
+.navbar button.btn-sm {
+  font-size: 0.8rem;
+}
