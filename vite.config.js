@@ -6,10 +6,14 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:5000", // your backend
+        target: "https://scrapyard-register-app-backend.onrender.com", // your backend
         changeOrigin: true,
         secure: false,
       },
     },
+  },
+  preview: {
+    // Allow your Render frontend URL
+    allowedHosts: ["scrapyard-register-app-frontend.onrender.com"],
   },
 });
