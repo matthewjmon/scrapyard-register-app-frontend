@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
-import * as bootstrap from "bootstrap"; // <- import bootstrap JS
+import * as bootstrap from "bootstrap"; // Bootstrap JS
 
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
@@ -18,10 +18,20 @@ function App() {
   const [firstUser, setFirstUser] = useState(null);
 
   useEffect(() => {
+    // Clear any stale token before checking
+    localStorage.removeItem("userInfo");
+
     axios
       .get("/api/auth/exists")
-      .then((res) => setFirstUser(!res.data.exists))
-      .catch(() => setFirstUser(false));
+      .then((res) => {
+        // If no users exist → firstUser = true → show Register
+        setFirstUser(!res.data.exists);
+      })
+      .catch((err) => {
+        console.error("Failed to check if users exist:", err);
+        // On error (e.g., 429), assume first user → show register
+        setFirstUser(true);
+      });
   }, []);
 
   // Initialize all Bootstrap tooltips once after mount
@@ -32,7 +42,7 @@ function App() {
     tooltipTriggerList.forEach((el) => new bootstrap.Tooltip(el));
   }, []); // empty deps → run once on mount
 
-  if (firstUser === null) return null;
+  if (firstUser === null) return null; // wait until we know if firstUser
 
   return (
     <Router>

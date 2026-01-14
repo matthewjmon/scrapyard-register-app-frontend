@@ -20,7 +20,6 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       // Invalid/expired token, remove from localStorage
       localStorage.removeItem("userInfo");
-      // Redirect user to login
       window.location.href = "/login";
     }
     return Promise.reject(error);
@@ -40,3 +39,4 @@ export const getNextCode = () => api.get("/records/next-code").then(res => res.d
 
 // ===== AUTH API =====
 export const loginUser = (email, password) => api.post("/auth/login", { email, password }).then(res => res.data);
+export const checkUserExists = () => api.get("/auth/exists").then(res => res.data.exists);
