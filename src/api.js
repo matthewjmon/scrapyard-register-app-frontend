@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://scrapyard-register-app-backend.onrender.com/api",
+  baseURL: import.meta.env.VITE_API_URL
 });
 
 // Attach JWT from localStorage to every request
@@ -34,6 +34,7 @@ export const getRecords = () => api.get("/records").then(res => res.data);
 export const getRecord = (id) => api.get(`/records/${id}`).then(res => res.data);
 export const createRecord = (data) => api.post("/records", data).then(res => res.data);
 export const updateRecord = (id, data) => api.put(`/records/${id}`, data).then(res => res.data);
+export const deleteAllRecords = () => api.delete('/records').then(res => res.data);
 export const deleteRecord = (id) => api.delete(`/records/${id}`).then(res => res.data);
 export const getNextCode = () => api.get("/records/next-code").then(res => res.data);
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRecords, deleteRecord } from "../api";
+import { getRecords, deleteRecord, deleteAllRecords } from "../api";
 import { Link } from "react-router-dom";
 import "../Dashboard.css"; 
 
@@ -38,8 +38,25 @@ export default function Dashboard() {
     }
   };
 
+  const handleDeleteAll = async () => {
+    if (!records.length) return;
+
+    if (window.confirm("Are you sure you want to delete all records?")) {
+      try {
+        await deleteAllRecords();
+        setRecords([]); // clear table after successful deletion
+        alert("All records deleted successfully.");
+      } catch (err) {
+        console.error("Failed to delete all records:", err);
+        alert("Failed to delete all records. See console.");
+      }
+    }
+  };
+
+
+
   return (
-    <div className="container-fluid dashboard-container mt-5 print-area dashboard-print">
+    <div className="container-fluid dashboard-container mt-5 mb-5 print-area dashboard-print">
 
       {/* SCREEN TITLE */}
       <h1 className="mb-4 no-print">Acquisition Register</h1>
@@ -83,23 +100,39 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* SORT ABOVE TABLE */}
-      <div className="d-flex justify-content-start align-items-center mb-2 no-print sort-wrapper mt-lg-5 mt-md-4 mt-sm-4">
-        <label className="me-2 fw-semibold mb-0" htmlFor="sortOrder">
-          Sort by Date:
-        </label>
-        <select
-          id="sortOrder"
-          className="form-select w-auto sort-options"
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
-          title="Select sorting order"
-          data-bs-toggle="tooltip"
-        >
-          <option value="asc" className="sort-options">Oldest First</option>
-          <option value="desc" className="sort-options">Newest First</option>
-        </select>
+      <div className="d-flex align-items-center mb-2 no-print sort-wrapper mt-lg-5 mt-md-4 mt-sm-4">
+        {/* Left: sort controls */}
+        <div className="d-flex align-items-center">
+          <label className="me-2 fw-semibold mb-0" htmlFor="sortOrder">
+            Sort by Date:
+          </label>
+          <select
+            id="sortOrder"
+            className="form-select w-auto sort-options"
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            title="Select sorting order"
+            data-bs-toggle="tooltip"
+          >
+            <option value="asc">Oldest First</option>
+            <option value="desc">Newest First</option>
+          </select>
+        </div>
+
+        {/* Spacer */}
+        <div className="ms-auto">
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={handleDeleteAll}
+            title="Delete all records"
+            data-bs-toggle="tooltip"
+          >
+            <i className="bi bi-trash3 me-1"></i>
+            Delete All
+          </button>
+        </div>
       </div>
+
 
       {/* PRINT HEADER */}
       <div className="print-title">

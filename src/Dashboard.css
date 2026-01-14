@@ -8,9 +8,6 @@
   color: #212529;
 }
 
-/* ===========================
-   TABLE STYLING
-   =========================== */
 
 /* Table font scaling & cell overflow */
 .register-table th,
@@ -157,4 +154,11 @@ td .btn {
     margin-bottom: 0.5rem; /* spacing below search */
   }
 }
+
+
+
+
+
+
+
 
