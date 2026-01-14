@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import api from "../api"; // <-- use your api.js instance with correct baseURL
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,17 +10,16 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Use the api instance, not default axios
-      const res = await api.post("/auth/login", { email, password });
+      const res = await loginUser(email, password);
 
-      // Save all relevant user info in localStorage
+      // Save user info in localStorage
       localStorage.setItem(
         "userInfo",
         JSON.stringify({
-          token: res.data.token,
-          username: res.data.username,
-          email: res.data.email,
-          businessName: res.data.businessName || "",
+          token: res.token,
+          username: res.username,
+          email: res.email,
+          businessName: res.businessName || "",
         })
       );
 
@@ -35,11 +34,8 @@ export default function Login() {
       <div className="card shadow-sm p-4" style={{ width: "100%", maxWidth: "400px" }}>
         <h2 className="text-center mb-4">Login</h2>
         <form onSubmit={handleSubmit}>
-          {/* Email */}
           <div className="mb-3">
-            <label htmlFor="email" className="form-label fw-semibold">
-              Email
-            </label>
+            <label htmlFor="email" className="form-label fw-semibold">Email</label>
             <input
               type="email"
               id="email"
@@ -51,11 +47,8 @@ export default function Login() {
             />
           </div>
 
-          {/* Password */}
           <div className="mb-3">
-            <label htmlFor="password" className="form-label fw-semibold">
-              Password
-            </label>
+            <label htmlFor="password" className="form-label fw-semibold">Password</label>
             <input
               type="password"
               id="password"
@@ -67,11 +60,8 @@ export default function Login() {
             />
           </div>
 
-          {/* Submit Button */}
           <div className="d-grid mb-3">
-            <button type="submit" className="btn btn-dark">
-              Login
-            </button>
+            <button type="submit" className="btn btn-dark">Login</button>
           </div>
         </form>
       </div>
