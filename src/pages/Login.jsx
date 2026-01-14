@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import api from "../api"; // <-- use your api.js instance with correct baseURL
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,14 +10,20 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/auth/login", { email, password });
-        // Save all relevant user info in localStorage
-        localStorage.setItem("userInfo", JSON.stringify({
+      // Use the api instance, not default axios
+      const res = await api.post("/auth/login", { email, password });
+
+      // Save all relevant user info in localStorage
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify({
           token: res.data.token,
           username: res.data.username,
           email: res.data.email,
-          businessName: res.data.businessName || ""
-        }));
+          businessName: res.data.businessName || "",
+        })
+      );
+
       navigate("/dashboard");
     } catch (err) {
       alert(err.response?.data?.message || "Login failed");
@@ -66,16 +72,6 @@ export default function Login() {
             <button type="submit" className="btn btn-dark">
               Login
             </button>
-          </div>
-
-          {/* Forgot Password Link */}
-          <div className="text-end mt-4">
-            <Link
-              to="/forgot-password"
-              className="text-muted text-decoration-none link-dark"
-            >
-              Forgot your password?
-            </Link>
           </div>
         </form>
       </div>
