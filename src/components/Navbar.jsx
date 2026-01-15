@@ -1,43 +1,44 @@
-// src/components/Navbar.jsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { updateBusinessName } from "../api"; // PROFILE API
-import "../Navbar.css"; // Optional for extra custom styles
+import { updateBusinessName } from "../api";
+import "../Navbar.css";
 
 export default function Navbar() {
   const navigate = useNavigate();
 
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
   const [businessName, setBusinessName] = useState(
-    localStorage.getItem("businessName") || "Your Business"
+    userInfo?.businessName || "Your Business"
   );
   const [isEditing, setIsEditing] = useState(false);
   const [tempName, setTempName] = useState(businessName);
 
-  useEffect(() => {
-    // Ensure localStorage is in sync on mount
-    localStorage.setItem("businessName", businessName);
-  }, [businessName]);
-
   const saveBusinessName = async () => {
     const trimmedName = tempName.trim();
-    if (!trimmedName) return; // don't allow empty
+    if (!trimmedName) return;
 
     try {
-      // 1️⃣ Update in DB
+      // Update DB
       await updateBusinessName(trimmedName);
 
-      // 2️⃣ Update local state and localStorage
+      // Update state
       setBusinessName(trimmedName);
-      localStorage.setItem("businessName", trimmedName);
-
-      // 3️⃣ Close edit mode
       setIsEditing(false);
+
+      // Update localStorage (single source of truth)
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify({
+          ...userInfo,
+          businessName: trimmedName,
+        })
+      );
     } catch (err) {
       console.error("Failed to update business name:", err);
-      alert("Failed to save business name. Please try again.");
+      alert("Failed to save business name.");
     }
   };
-
 
   const handleLogout = () => {
     localStorage.removeItem("userInfo");
@@ -46,10 +47,10 @@ export default function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-      <div className="container-fluid d-flex align-items-center justify-content-between">
+      <div className="container-fluid d-flex justify-content-between align-items-center">
 
         {/* Business Name */}
-        <div className="d-flex align-items-center">
+        <div>
           {isEditing ? (
             <div className="d-flex align-items-center gap-2">
               <input
@@ -60,14 +61,11 @@ export default function Navbar() {
                 onKeyDown={(e) => e.key === "Enter" && saveBusinessName()}
                 autoFocus
               />
-              <button
-                className="btn btn-sm btn-info text-dark"
-                onClick={saveBusinessName}
-              >
+              <button className="btn btn-sm btn-info" onClick={saveBusinessName}>
                 Save
               </button>
               <button
-                className="btn btn-sm btn-info text-dark"
+                className="btn btn-sm btn-secondary"
                 onClick={() => {
                   setTempName(businessName);
                   setIsEditing(false);
@@ -77,11 +75,10 @@ export default function Navbar() {
               </button>
             </div>
           ) : (
-            <div className="d-flex align-items-center gap-1">
+            <div className="d-flex align-items-center gap-2">
               <span className="navbar-brand mb-0 h1">{businessName}</span>
               <button
-                className="btn btn-sm text-light p-1"
-                title="Edit Business Name"
+                className="btn btn-sm text-light"
                 onClick={() => setIsEditing(true)}
               >
                 <i className="bi bi-pencil"></i>
@@ -91,12 +88,12 @@ export default function Navbar() {
         </div>
 
         {/* Logout */}
-        <div>
-          <button className="btn btn-outline-light d-flex align-items-center gap-1" onClick={handleLogout}>
-            <i className="bi bi-box-arrow-right"></i>
-            Logout
-          </button>
-        </div>
+        <button
+          className="btn btn-outline-light"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </div>
     </nav>
   );
