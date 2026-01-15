@@ -102,8 +102,8 @@ export default function Dashboard() {
 
       <div className="d-flex align-items-center mb-2 no-print sort-wrapper mt-lg-5 mt-md-4 mt-sm-4">
         {/* Left: sort controls */}
-        <div className="d-flex align-items-center">
-          <label className="me-2 fw-semibold mb-0" htmlFor="sortOrder">
+        <div className="d-flex align-items-center sort-container">
+          <label className="me-2 fw-semibold mb-0 sort-label" htmlFor="sortOrder">
             Sort by Date:
           </label>
           <select
@@ -119,16 +119,16 @@ export default function Dashboard() {
           </select>
         </div>
 
-        {/* Spacer */}
-        <div className="ms-auto">
+        {/* Delete All Button */}
+        <div className="ms-auto delete-all-wrapper">
           <button
-            className="btn btn-danger btn-sm"
+            className="btn btn-danger btn-sm delete-all-btn d-flex align-items-center gap-1"
             onClick={handleDeleteAll}
             title="Delete all records"
             data-bs-toggle="tooltip"
           >
             <i className="bi bi-trash3 me-1"></i>
-            Delete All
+            <span className="action-btn-text delete-all-text">Delete All</span>
           </button>
         </div>
       </div>

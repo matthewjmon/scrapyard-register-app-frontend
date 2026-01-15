@@ -49,7 +49,7 @@ export default function NewRecord() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 mb-5">
       <h2 className="mb-4 text-center">New Registration</h2>
 
       <div className="card shadow-sm p-4" style={{ maxWidth: "600px", margin: "0 auto" }}>
@@ -218,7 +218,7 @@ export default function NewRecord() {
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/dashboard")}
             >
               <i class="bi bi-x-lg me-2"></i>
               Cancel

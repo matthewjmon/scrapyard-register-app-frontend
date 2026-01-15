@@ -40,6 +40,12 @@ td .btn {
   overflow-x: auto;
 }
 
+.sort-label {
+  white-space: nowrap;
+  flex-shrink: 0; /* prevents flexbox from squeezing it */
+}
+
+
 /* ===========================
    SORT & HEADER STYLING
    =========================== */
@@ -153,8 +159,64 @@ td .btn {
     width: 100%; /* search input still full width */
     margin-bottom: 0.5rem; /* spacing below search */
   }
+
+    .delete-all-wrapper {
+    flex-basis: 100%;       /* take full width */
+    margin-top: 0.3rem;     /* small spacing from sort controls */
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .delete-all-wrapper .delete-all-btn {
+    flex: 0 1 auto;         /* shrink if needed */
+    font-size: 0.55rem;
+    padding: 0.25rem 0.4rem;
+  }
+
+  .delete-all-wrapper .action-btn-text {
+    display: none;          /* hide text to save space */
+  }
 }
 
+
+
+
+/* DELETE ALL BUTTON RESPONSIVENESS */
+.delete-all-wrapper .delete-all-btn {
+  font-size: clamp(0.6rem, 1vw, 0.85rem);
+  padding: 0.35rem 0.6rem;
+  white-space: nowrap;
+}
+
+/* Medium screens */
+@media (max-width: 768px) {
+  .delete-all-wrapper .delete-all-btn {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+
+
+
+
+/* Ensure Delete All text is NEVER hidden */
+.delete-all-text {
+  display: inline !important;
+  white-space: nowrap;
+}
+
+/* Scale Delete All text down on small screens */
+@media (max-width: 576px) {
+  .delete-all-btn {
+    font-size: 0.55rem;
+    padding: 0.25rem 0.4rem;
+  }
+
+  .delete-all-text {
+    font-size: 0.55rem;
+  }
+}
 
 
 
