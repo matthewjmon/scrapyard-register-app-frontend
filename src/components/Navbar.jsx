@@ -1,6 +1,7 @@
 // src/components/Navbar.jsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { updateBusinessName } from "../api"; // PROFILE API
 import "../Navbar.css"; // Optional for extra custom styles
 
 export default function Navbar() {
@@ -17,12 +18,26 @@ export default function Navbar() {
     localStorage.setItem("businessName", businessName);
   }, [businessName]);
 
-  const saveBusinessName = () => {
-    if (tempName.trim() === "") return; // Don't allow empty name
-    setBusinessName(tempName.trim());
-    localStorage.setItem("businessName", tempName.trim());
-    setIsEditing(false);
+  const saveBusinessName = async () => {
+    const trimmedName = tempName.trim();
+    if (!trimmedName) return; // don't allow empty
+
+    try {
+      // 1️⃣ Update in DB
+      await updateBusinessName(trimmedName);
+
+      // 2️⃣ Update local state and localStorage
+      setBusinessName(trimmedName);
+      localStorage.setItem("businessName", trimmedName);
+
+      // 3️⃣ Close edit mode
+      setIsEditing(false);
+    } catch (err) {
+      console.error("Failed to update business name:", err);
+      alert("Failed to save business name. Please try again.");
+    }
   };
+
 
   const handleLogout = () => {
     localStorage.removeItem("userInfo");

@@ -220,6 +220,48 @@ td .btn {
 
 
 
+@media (max-width: 371px) {
+  /* Force horizontal scrolling instead of wrapping */
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  /* Absolutely prevent wrapping anywhere in the table */
+  .register-table th,
+  .register-table td {
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.38rem !important;
+  }
+
+  /* Prevent any button text wrapping */
+  .btn,
+  .delete-all-btn,
+  .delete-all-text,
+  .sort-label {
+    white-space: nowrap !important;
+  }
+
+  /* Slightly reduce button size */
+  .delete-all-btn {
+    font-size: 0.5rem;
+    padding: 0.2rem 0.35rem;
+  }
+
+  /* Keep sort label and select tight */
+  .sort-container {
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+  }
+
+  .sort-options {
+    font-size: 0.55rem;
+    padding: 0.2rem 0.35rem;
+  }
+}
+
+
 
 
 

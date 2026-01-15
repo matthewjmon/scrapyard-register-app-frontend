@@ -30,7 +30,7 @@ export default function Login() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light container-fluid">
       <div className="card shadow-sm p-4" style={{ width: "100%", maxWidth: "400px" }}>
         <h2 className="text-center mb-4">Login</h2>
         <form onSubmit={handleSubmit}>

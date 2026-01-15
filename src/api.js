@@ -40,3 +40,7 @@ export const getNextCode = () => api.get("/records/next-code").then(res => res.d
 // ===== AUTH API =====
 export const loginUser = (email, password) => api.post("/auth/login", { email, password }).then(res => res.data);
 export const checkUserExists = () => api.get("/auth/exists").then(res => res.data.exists);
+
+// ===== PROFILE API =====
+export const updateBusinessName = (newName) => 
+  api.put("/profile/business-name", { businessName: newName }).then(res => res.data);
